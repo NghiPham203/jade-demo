@@ -1,4 +1,3 @@
-
 package agents;
 
 import db.DatabaseHelper;
@@ -8,23 +7,22 @@ import jade.lang.acl.ACLMessage;
 import ui.MarketUI;
 
 public class BuyerAgent extends Agent {
-    private static BuyerAgent instance;
+    static BuyerAgent instance;
 
     @Override
     protected void setup() {
         instance = this;
-        MarketUI.addLog(getLocalName() + " đã sẵn sàng.");
     }
 
-    public static void sendPrice(String price) {
+    public static void sendJson(String json) {
         if (instance != null) {
             ACLMessage msg = new ACLMessage(ACLMessage.PROPOSE);
-            msg.setContent(price);
+            msg.setContent(json);
             msg.addReceiver(new AID("seller", AID.ISLOCALNAME));
             instance.send(msg);
 
-            MarketUI.addLog(instance.getLocalName() + " gửi giá: " + price);
-            DatabaseHelper.insertLog(instance.getLocalName(), "seller", "Gửi giá: " + price);
+            MarketUI.addLog("👤 Buyer gửi: " + json);
+            DatabaseHelper.insertLog("buyer", "seller", json);
         }
     }
 }

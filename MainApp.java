@@ -11,26 +11,14 @@ import javafx.stage.Stage;
 import ui.MarketUI;
 
 public class MainApp extends Application {
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     @Override
     public void start(Stage primaryStage) {
-        try {
-            // Start JADE
-            Runtime rt = Runtime.instance();
-            Profile p = new ProfileImpl();
-            AgentContainer container = rt.createMainContainer(p);
+        MarketUI ui = new MarketUI();
+        ui.start(primaryStage);
+    }
 
-            container.createNewAgent("seller", SellerAgent.class.getName(), null).start();
-            container.createNewAgent("buyer1", BuyerAgent.class.getName(), null).start();
-
-            // Start JavaFX UI
-            MarketUI ui = new MarketUI();
-            ui.start(primaryStage);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void main(String[] args) {
+        jade.Boot.main(new String[]{"-gui", "buyer:BuyerAgent; seller:SellerAgent"});
+        launch(args);
     }
 }

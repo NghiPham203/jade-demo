@@ -1,31 +1,35 @@
-
 package agents;
 
 import db.DatabaseHelper;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
+import jade.core.behaviours.CyclicBehaviour;
+import org.json.JSONObject;
 import ui.MarketUI;
 
 public class SellerAgent extends Agent {
     @Override
     protected void setup() {
-        MarketUI.addLog("Seller đã sẵn sàng.");
-        addBehaviour(new jade.core.behaviours.CyclicBehaviour() {
+        addBehaviour(new CyclicBehaviour() {
             public void action() {
-                ACLMessage msg = receive(MessageTemplate.MatchPerformative(ACLMessage.PROPOSE));
+                ACLMessage msg = receive();
                 if (msg != null) {
-                    String content = msg.getContent();
-                    String replyText;
                     try {
-                        int price = Integer.parseInt(content);
-                        replyText = (price >= 95000) ? "Đồng ý bán" : "Từ chối, giá thấp";
-                    } catch (Exception e) {
-                        replyText = "Giá không hợp lệ";
-                    }
+                        JSONObject obj = new JSONObject(msg.getContent());
+                        int price = obj.getInt("price");
+                        int threshold = obj.getInt("threshold");
+                        String product = obj.getString("product");
+                        String buyer = obj.getString("from");
 
-                    MarketUI.addLog("Seller phản hồi: " + replyText);
-                    DatabaseHelper.insertLog("seller", msg.getSender().getLocalName(), replyText);
+                        String reply = price >= threshold
+                            ? "✅ Đồng ý bán " + product + " với giá " + price
+                            : "❌ Từ chối, giá quá thấp (" + price + " < " + threshold + ")";
+
+                        MarketUI.addLog("🧑‍💼 Seller phản hồi: " + reply);
+                        DatabaseHelper.insertLog("seller", buyer, reply);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     block();
                 }
