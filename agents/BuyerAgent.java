@@ -21,7 +21,7 @@ public class BuyerAgent extends Agent {
             msg.addReceiver(new AID("seller", AID.ISLOCALNAME));
             instance.send(msg);
 
-            MarketUI.addLog("👤 Buyer gửi: " + json);
+            MarketUI.addLog("👤 Buyer send: " + json);
             DatabaseHelper.insertLog("buyer", "seller", json);
         }
     }

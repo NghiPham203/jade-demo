@@ -25,7 +25,7 @@ public class MarketUI {
         TextField noteInput = new TextField();
         TextField orderIdInput = new TextField();
 
-        Button sendBtn = new Button("Gửi giao dịch");
+        Button sendBtn = new Button("Send transaction");
         sendBtn.setOnAction(e -> {
             String json = String.format(
                 "{\"from\":\"%s\", \"to\":\"%s\", \"price\":%s, \"product\":\"%s\", \"note\":\"%s\", \"orderId\":\"%s\", \"threshold\":%s}",
@@ -36,19 +36,19 @@ public class MarketUI {
         });
 
         VBox layout = new VBox(10,
-            new Label("Người gửi:"), fromInput,
-            new Label("Người nhận:"), toInput,
-            new Label("Sản phẩm:"), productDropdown,
-            new Label("Giá đề xuất:"), priceInput,
-            new Label("Ngưỡng giá chấp nhận (threshold):"), thresholdInput,
-            new Label("Ghi chú:"), noteInput,
-            new Label("Mã đơn hàng:"), orderIdInput,
+            new Label("Sender:"), fromInput,
+            new Label("Receiver:"), toInput,
+            new Label("Products:"), productDropdown,
+            new Label("Suggested price:"), priceInput,
+            new Label("Threshold:"), thresholdInput,
+            new Label("Note:"), noteInput,
+            new Label("Order code:"), orderIdInput,
             sendBtn,
-            new Label("Lịch sử giao dịch:"),
+            new Label("Transaction history:"),
             logArea
         );
         layout.setPadding(new Insets(10));
-        stage.setScene(new Scene(layout, 500, 600));
+        stage.setScene(new Scene(layout, 500, 800));
         stage.setTitle("JADE Market UI");
         stage.show();
     }

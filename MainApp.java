@@ -18,7 +18,7 @@ public class MainApp extends Application {
     }
 
     public static void main(String[] args) {
-        jade.Boot.main(new String[]{"-gui", "buyer:BuyerAgent; seller:SellerAgent"});
+        jade.Boot.main(new String[]{"-gui", "buyer:agents.BuyerAgent; seller:agents.SellerAgent"});
         launch(args);
     }
 }

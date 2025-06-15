@@ -22,10 +22,10 @@ public class SellerAgent extends Agent {
                         String buyer = obj.getString("from");
 
                         String reply = price >= threshold
-                            ? "✅ Đồng ý bán " + product + " với giá " + price
-                            : "❌ Từ chối, giá quá thấp (" + price + " < " + threshold + ")";
+                            ? "✅ Agree sell " + product + " with " + price
+                            : "❌ Reject, too lower price (" + price + " < " + threshold + ")";
 
-                        MarketUI.addLog("🧑‍💼 Seller phản hồi: " + reply);
+                        MarketUI.addLog("🧑‍💼 Seller response: " + reply);
                         DatabaseHelper.insertLog("seller", buyer, reply);
                     } catch (Exception e) {
                         e.printStackTrace();
